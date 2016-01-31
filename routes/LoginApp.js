@@ -3,7 +3,7 @@
  */
 var express = require('express');
 var router = express.Router();
-var loginUtil = require('LoginUtility.js')
+var loginUtil = require('../public/javascripts/LoginUtility.js');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -12,8 +12,8 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req,res,next){
-   var request = req.body;
 
+    var request = req.body;
     res.send(loginUtil.validateLogin(request));
 
 });
