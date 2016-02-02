@@ -1,8 +1,19 @@
 /**
  * Created by bjc90_000 on 1/28/2016.
  */
-function validateLogin(request){
 
+function validateLogin(request){
+    var MongoClient = require('mongod').MongoClient;
+    MongoClient.connect("mongodb://localhost:27017/SS", function(err, db){
+        if(err) {return console.dir(err);}
+
+        var collection = db.collection('login');
+        var docs = {username:'qwex'};
+
+        collection.findOne(docs, function(err, result){
+            console.log(result.password);
+        });
+    });
     if(request.username.isString()){
         if(request.password.isString()){
             // this is a login object, continue to verification.

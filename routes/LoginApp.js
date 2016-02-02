@@ -7,7 +7,8 @@ var loginUtil = require('../public/javascripts/LoginUtility.js');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.send('Theres Nothing Here!');
+    var request = req.body;
+    res.send(loginUtil.validateLogin(request));
 });
 
 
