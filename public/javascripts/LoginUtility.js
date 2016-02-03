@@ -1,46 +1,74 @@
 /**
  * Created by bjc90_000 on 1/28/2016.
  */
+var mongoose = require('mongoose'),
+    db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
 
-function validateLogin(request){
-    var MongoClient = require('mongod').MongoClient;
-    MongoClient.connect("mongodb://localhost:27017/SS", function(err, db){
-        if(err) {return console.dir(err);}
-
-        var collection = db.collection('login');
-        var docs = {username:'qwex'};
-
-        collection.findOne(docs, function(err, result){
-            console.log(result.password);
+exports.loginlist = function(gname, callback) {
+    console.log("did it actually start?: "+db.toString());
+    db.once('open', function() {
+        console.log("in the once");
+        var loginSchema = new mongoose.Schema({
+            username: String,
+            password: String
         });
     });
-    if(request.username.isString()){
-        if(request.password.isString()){
-            // this is a login object, continue to verification.
-            if(isValidUser()){// is the user valid???
-                if(isValidPassword()){//is the password valid???
-                    var id =makeid();
-                    if(enterToUKDB(request.username,id)){
-                        return {
-                            Verdict:true,
-                            authenticationKey:id ,
-                            KeyTTL:60,
-                        };
-                    }else{// TODO something gone terribly wrong error
-                    }
-
-                }else{// TODO invalid password
+mongoose.connect('mongodb://localhost/SS');
+    console.log('connection make');
+        var LoginRequestModel = mongoose.model('login', loginSchema);
+        LoginRequestModel.find({username:'qwex'},
+            function (err, logins) {
+                if (err) {
+                     return console.error(err);
+                } else {
+                    mongoose.connection.close();
+                    console.log("found: " + logins);
+                    callback("", logins);
                 }
-            }else{//TODO invalid username
-            }
-        }else{// TODO return invalid request error password is not a string
-        }
-    }else{// TODO return invalid request error username is not a string
-    }
+            });
 
-    return {
-        failure:"failure"
-    };
+};
+
+function validateLogin(request){
+
+    console.log(request.username,request.password);
+    var mongoose = require('mongoose'),
+        db = mongoose.createConnection('localhost', 'login');
+    db.on('error', console.error.bind(console, 'connection error:'));
+
+
+console.log("shouldve made it this far");
+     exports.loginlist = function(gname, callback) {
+        console.log("did it actually start?");
+        db.once('open', function() {
+            var loginSchema = new mongoose.Schema({
+                username: String,
+                password: String
+            });
+
+
+
+                var loginRequestModel = db.model('login', loginSchema);
+
+
+                loginRequestModel.find({username: request.username, password: request.password},
+                    function (err, logins) {
+                        if (err) {
+                            onErr(err, callback);
+                        } else {
+                            mongoose.connection.close();
+                            console.log("found: " + logins);
+                            callback("", logins);
+                        }
+                    });
+            });
+        };
+
+    if(exports.loginlist)
+    return exports.loginlist;
+    else
+    return {fuck:"you"};
 }
 function makeid()
 {
@@ -52,14 +80,58 @@ function makeid()
 
     return text;
 }
-function isValidUser( username){
+
+function isValidLogin(username,password) {
+
+
 
 }
-function isValidPassword(password){
 
+
+//    console.log("paramaters");
+//    console.log(username,password);
+//
+//   // pausecomp(10000);
+//    var asd=locate(username,password);
+//    console.log("returnValue before return " +asd);
+//
+//    return asd;
+//
+//
+//}
+//var returnValue=false;
+//function locate(username, password){
+//    returnValue= false;
+//    var MongoClient = require('mongodb').MongoClient;
+//     MongoClient.connect("mongodb://localhost:27017/SS", function(err, db){
+//        if(err) {return console.dir(err);}
+//
+//        var collection = db.collection('login');
+//        var Login = {username:username, password:password};
+//        collection.findOne(Login, function(err, result){
+//            // console.log(result.password);
+//            if(result) {
+//                returnValue = true;
+//                console.log("found result "+result.username+result.password+"   "+returnValue);
+//            }
+//        });
+//       //console.log(collection);
+//
+//    });
+//
+//    return returnValue;
+//
+//}
+function pausecomp(millis)
+{
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < millis);
 }
 function enterToUKDB(user,id){
     // mongostuff also get unique key,
+    return true;
 }
 
 exports.validateLogin= validateLogin;
