@@ -6,20 +6,56 @@ var app = express();
 var router = express.Router();
 var loginUtil = require('../public/javascripts/LoginUtility.js');
 
-/* GET users listing. */
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
+var url = 'mongodb://localhost/SS';
+/* GET listing. */
 //router.get('/', function(req, res, next) {
 //    res.send("nothing");
 //});
+function makeid()
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    for( var i=0; i < 30; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 router.post('/', function(req,res,next){
-    console.log("psot made");
-var strGroup = req.body;
-  loginUtil.loginlist(strGroup, function(err,loginlist){
-      console.log("calling the shit");
-        res.send(loginlist);
-    });
 
+    var validateLogin = function(db, callback) {
+        var cursor =db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
+            if(document)
+            res.send({username:document.username, password:document.password,KEY:makeid()});
+            else
+            res.send({fuck:"you"})
+        } );
+        //cursor.each(function(err, doc) {
+        //    assert.equal(err, null);
+        //    if (doc != null) {
+        //        console.dir("found this:"+doc);
+        //        res.send(doc);
+        //        callback();
+        //    } else {
+        //        if(cursor)
+        //        res.send({fuck:"you"});
+        //        callback();
+        //    }
+        //});
+
+    };
+
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+        validateLogin(db, function() {
+            db.close();
+
+        });
+    });
 
 });
 
