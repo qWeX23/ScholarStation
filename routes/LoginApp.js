@@ -26,14 +26,25 @@ function makeid()
 }
 
 router.post('/', function(req,res,next){
-
+    //asynch function for validation login
     var validateLogin = function(db, callback) {
         var cursor =db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
-            if(document)
-            res.send({username:document.username, password:document.password,KEY:makeid()});
-            else
+            if(document){//found in the login collection
+                var KEY = makeid();
+                var ValidatedLoginUK = {user:document.username,KEY:KEY};
+                db.collection('uniquekey').insert(ValidatedLoginUK, {w: 1}, function(err, records){//inserts into the uniquekey collection
+                    if(err){
+                        console.log("could not validatelogin-- insert");
+                        res.send({error:"error in uniquekey collection insert"});
+                    }else
+                    console.log("Record added ");
+                });
+                res.send({username:document.username, password:document.password,KEY:KEY});
+               }
+             else
             res.send({fuck:"you"})
         } );
+        //  use this if you want to do
         //cursor.each(function(err, doc) {
         //    assert.equal(err, null);
         //    if (doc != null) {
@@ -48,7 +59,7 @@ router.post('/', function(req,res,next){
         //});
 
     };
-
+    // creates connection and calls validate login
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         validateLogin(db, function() {
