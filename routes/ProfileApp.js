@@ -13,6 +13,7 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost/SS';
+<<<<<<< HEAD
 
 router.post('/',function(req,res,next) {
     var request = req.body;
@@ -57,6 +58,10 @@ router.post('/',function(req,res,next) {
 
         });
     });
+=======
+router.post('/',function(req,res,next){
+
+>>>>>>> origin/BenFirstSprint
 });
 
 module.exports = router;

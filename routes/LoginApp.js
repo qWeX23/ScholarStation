@@ -29,6 +29,13 @@ router.post('/', function(req,res,next){
     //asynch function for validation login
     var validateLogin = function(db, callback) {
         var cursor =db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
+<<<<<<< HEAD
+            if(err)//error: something went wroing
+            res.send("DBError");
+            if(document)//found it
+            res.send({username:document.username, password:document.password,KEY:makeid()});
+            else// invalid login
+=======
             if(document){//found in the login collection
                 var KEY = makeid();
                 var ValidatedLoginUK = {user:document.username,KEY:KEY};
@@ -42,6 +49,7 @@ router.post('/', function(req,res,next){
                 res.send({username:document.username, password:document.password,KEY:KEY});
                }
              else
+>>>>>>> origin/BenFirstSprint
             res.send({fuck:"you"})
         } );
         //  use this if you want to do
