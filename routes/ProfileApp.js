@@ -13,11 +13,12 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://localhost/SS';
-<<<<<<< HEAD
+
 
 router.post('/',function(req,res,next) {
     var request = req.body;
-    console.log("this is the request:",request);
+    console.log("this is the request:", request);
+
     var requestProfile = function (db, callback) {
         var cursor = db.collection('uniquekey').findOne({//object to search for
 
@@ -32,7 +33,7 @@ router.post('/',function(req,res,next) {
             }else
 
             if (document) {//found in the uk collection "is loggedin"
-               console.log("user:"+document.username+"is logged in ");
+                console.log("user:"+document.username+"is logged in ");
 
                 db.collection('profile').findOne(document.username, function (err, document) {//finds the user profile
                     if (err) {
@@ -40,7 +41,7 @@ router.post('/',function(req,res,next) {
                         res.send({error: "could not find profile for user"});
                     } else
                         console.log("found user profile  " + document);
-                        res.send(document);
+                    res.send(document);
                 });
 
             }
@@ -50,7 +51,6 @@ router.post('/',function(req,res,next) {
 
         })
     }
-
     MongoClient.connect(url, function(err, db) {
         assert.equal(null, err);
         requestProfile(db, function() {
@@ -58,10 +58,9 @@ router.post('/',function(req,res,next) {
 
         });
     });
-=======
-router.post('/',function(req,res,next){
-
->>>>>>> origin/BenFirstSprint
 });
+
+
+
 
 module.exports = router;
