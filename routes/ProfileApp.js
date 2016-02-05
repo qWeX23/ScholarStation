@@ -40,7 +40,7 @@ router.post('/',function(req,res,next) {
                         console.log("could not find profile for user");
                         res.send({error: "could not find profile for user"});
                     } else
-                        console.log("found user profile  " + document);
+                        console.log("found user profile  " , document);
                     res.send(document);
                 });
 

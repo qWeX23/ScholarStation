@@ -40,7 +40,7 @@ router.post('/', function(req,res,next){
                         console.log("could not validatelogin-- insert");
                         res.send({error:"error in uniquekey collection insert"});
                     }else
-                    console.log("Record added ");
+                    console.log("Record added ",records);
                 });
                 res.send({username:document.username, password:document.password,KEY:KEY});
                }
