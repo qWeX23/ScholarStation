@@ -29,9 +29,11 @@ router.post('/', function(req,res,next){
 
     var validateLogin = function(db, callback) {
         var cursor =db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
-            if(document)
+            if(err)//error: something went wroing
+            res.send("DBError");
+            if(document)//found it
             res.send({username:document.username, password:document.password,KEY:makeid()});
-            else
+            else// invalid login
             res.send({fuck:"you"})
         } );
         //cursor.each(function(err, doc) {

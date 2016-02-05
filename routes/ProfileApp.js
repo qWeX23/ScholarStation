@@ -9,10 +9,12 @@ router.get('/', function(req, res, next) {
     res.send('This is the Profiles Page that the App commnicates with');
 });
 
-
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
+var url = 'mongodb://localhost/SS';
 router.post('/',function(req,res,next){
-    var request = req.body;
-    res.send(profileUtil.getProfile(request));
+
 });
 
 module.exports = router;
