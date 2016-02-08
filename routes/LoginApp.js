@@ -42,11 +42,11 @@ router.post('/', function(req,res,next){
                     }else
                     console.log("Record added ",records);
                 });
-                res.send({username:document.username, password:document.password,KEY:KEY});
+                res.send({validate:true ,username:document.username, password:document.password,KEY:KEY, user:req.body.username});
                }
              else
 
-            res.send({fuck:"you"})
+            res.send({validate:false})
         } );
         //  use this if you want to do
         //cursor.each(function(err, doc) {
