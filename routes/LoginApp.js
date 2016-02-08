@@ -4,7 +4,7 @@
 var express = require('express');
 var app = express();
 var router = express.Router();
-var loginUtil = require('../public/javascripts/LoginUtility.js');
+
 
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
