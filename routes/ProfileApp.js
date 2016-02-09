@@ -35,7 +35,7 @@ router.post('/',function(req,res,next) {
             if (document) {//found in the uk collection "is loggedin"
                 console.log("user:"+document.username+"is logged in ");
 
-                db.collection('profile').findOne(document.username, function (err, document) {//finds the user profile
+                db.collection('profile').findOne({username:document.username}, function (err, document) {//finds the user profile
                     if (err) {
                         console.log("could not find profile for user");
                         res.send({error: "could not find profile for user"});
