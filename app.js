@@ -11,6 +11,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var loginApp = require('./routes/LoginApp');
 var profileApp = require('./routes/ProfileApp');
+var dashboard = require(('./routes/dashBoard'));
 
 
 
@@ -32,6 +33,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/LoginApp',loginApp);
 app.use('/ProfileApp',profileApp);
+app.use('/dashBoard',dashboard);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
