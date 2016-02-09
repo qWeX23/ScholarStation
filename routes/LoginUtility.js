@@ -28,10 +28,10 @@ function makeid()
 router.post('/', function(req,res,next){
     //asynch function for validation login
     var validateLogin = function(db, callback) {
-        var cursor =db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
+        db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
 
             if(err)//error: something went wroing
-            res.send("DBError");
+            res.send({validate:false});
             if(document){//found in the login collection
                 var KEY = makeid();
                 var ValidatedLoginUK = {username:document.username,KEY:KEY};
@@ -42,26 +42,12 @@ router.post('/', function(req,res,next){
                     }else
                     console.log("Record added ",records);
                 });
-                res.send({validate:true ,username:document.username, password:document.password,KEY:KEY, user:req.body.username});
+                res.send({validate:true ,username:document.username,KEY:KEY});
                }
              else
 
             res.send({validate:false})
         } );
-        //  use this if you want to do
-        //cursor.each(function(err, doc) {
-        //    assert.equal(err, null);
-        //    if (doc != null) {
-        //        console.dir("found this:"+doc);
-        //        res.send(doc);
-        //        callback();
-        //    } else {
-        //        if(cursor)
-        //        res.send({fuck:"you"});
-        //        callback();
-        //    }
-        //});
-
     };
     // creates connection and calls validate login
     MongoClient.connect(url, function(err, db) {
