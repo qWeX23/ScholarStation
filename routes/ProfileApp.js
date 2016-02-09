@@ -22,7 +22,7 @@ router.post('/',function(req,res,next) {
     var requestProfile = function (db, callback) {
         var cursor = db.collection('uniquekey').findOne({//object to search for
 
-            user: req.body.username,
+            username: req.body.username,
             KEY: req.body.KEY
 
         }, function (err, document) {// search results
