@@ -33,6 +33,21 @@ router.post('/', function(req,res,next){
             if(err)//error: something went wroing
             res.send({validate:false});
             if(document){//found in the login collection
+
+                db.collection('uniquekey').findOne({//object to search for
+
+                    username: req.body.username,
+
+                }, function (err, document) {
+                    if(err){
+                        res.send({validate:false});
+
+                    }
+                    if (document){
+                        res.send({validate:true ,username:document.username,KEY:document.KEY});
+                    }else
+                    console.log("Issuing new key" );
+                });
                 var KEY = makeid();
                 var ValidatedLoginUK = {username:document.username,KEY:KEY};
                 db.collection('uniquekey').insert(ValidatedLoginUK, {w: 1}, function(err, records){//inserts into the uniquekey collection

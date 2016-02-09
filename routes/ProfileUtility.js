@@ -20,7 +20,7 @@ router.post('/',function(req,res,next) {
     console.log("this is the request:", request);
 
     var requestProfile = function (db, callback) {
-        var cursor = db.collection('uniquekey').findOne({//object to search for
+       db.collection('uniquekey').findOne({//object to search for
 
             username: req.body.username,
             KEY: req.body.KEY
