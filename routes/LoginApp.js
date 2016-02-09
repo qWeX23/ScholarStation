@@ -34,7 +34,7 @@ router.post('/', function(req,res,next){
             res.send("DBError");
             if(document){//found in the login collection
                 var KEY = makeid();
-                var ValidatedLoginUK = {user:document.username,KEY:KEY};
+                var ValidatedLoginUK = {username:document.username,KEY:KEY};
                 db.collection('uniquekey').insert(ValidatedLoginUK, {w: 1}, function(err, records){//inserts into the uniquekey collection
                     if(err){
                         console.log("could not validatelogin-- insert");
