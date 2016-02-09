@@ -9,8 +9,8 @@ var bodyParser = require('body-parser');
 //Adds the files to the project?
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var loginApp = require('./routes/LoginApp');
-var profileApp = require('./routes/ProfileApp');
+var loginApp = require('./routes/LoginUtility');
+var profileApp = require('./routes/ProfileUtility');
 var dashboard = require(('./routes/dashBoard'));
 
 
