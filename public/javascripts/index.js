@@ -22,6 +22,7 @@ $(document).ready(function() {
     };
 
     $(document).on("click", ".login__submit", function(e) {
+        //console.log(" animating...");
         if (animating) return;
         animating = true;
         var that = this;
@@ -41,8 +42,27 @@ $(document).ready(function() {
                 $(that).removeClass("success processing");
             }, submitPhase2);
         }, submitPhase1);
+
     });
 
+    // this is another attempt at validating input
+    /*
+    $(document).on("click", ".login__submit", function(e) {
+        console.log("got into validate login...");
+        var xhttp = new XMLHttpRequest();
+        var json_upload;
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                //document.getElementById("demo").innerHTML = xhttp.responseText;
+                window.location ="http://70.187.52.39:3000/dashBoard";
+            }
+        };
+        jsnon_upload = JSON.stringify({username:"Hamhock", password:"elmo"});
+        xhttp.open("POST", "http://70.187.52.39:3000/LoginApp" , true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.send(json_upload);
+    });
+*/
     $(document).on("click", ".app__logout", function(e) {
         if (animating) return;
         $(".ripple").remove();

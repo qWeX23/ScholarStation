@@ -6,7 +6,7 @@ var app = express();
 var router = express.Router();
 
 router.get('/',function(req,res,next){
-    //change this name
-   //res.sendFile('../views/index.html');
+   //Only send back if you can validate the user is logged in with the right key and all that.
+   res.sendFile('../views/dashBoard.html');
 });
 module.exports = router;

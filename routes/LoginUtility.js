@@ -26,6 +26,7 @@ function makeid()
 }
 
 router.post('/', function(req,res,next){
+    console.log("validating login...");
     //asynch function for validation login
     var validateLogin = function(db, callback) {
         db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
