@@ -25,16 +25,23 @@ function makeid()
     return text;
 }
 
+router.get('/', function(req, res, next){
+    res.send('tried to use a GET with LoginUtility. Should redirect to a different page...');
+});
+
 router.post('/', function(req,res,next){
     console.log("validating login...");
+    console.log(" ON SERVER -- username: " + req.body.username + " password: " + req.body.password);
     //asynch function for validation login
     var validateLogin = function(db, callback) {
         db.collection('login').findOne({username:req.body.username,password:req.body.password},function(err,document){
 
-            if(err)//error: something went wroing
-            res.send({validate:false});
+            if(err) {//error: something went wroing
+                console.log("Something went wrong...");
+                res.send({validate: false});
+            }
             if(document){//found in the login collection
-
+                console.log("I FOUND YOU...");
                 db.collection('uniquekey').findOne({//object to search for
 
                     username: req.body.username,
@@ -42,6 +49,7 @@ router.post('/', function(req,res,next){
                 }, function (err, document) {
                     if(err){
                         res.send({validate:false});
+                        return;
 
                     }
                     if (document){
@@ -61,8 +69,8 @@ router.post('/', function(req,res,next){
                 res.send({validate:true ,username:document.username,KEY:KEY});
                }
              else
-
-            res.send({validate:false})
+                res.send({validate:false});
+            return;
         } );
     };
     // creates connection and calls validate login
