@@ -1,5 +1,16 @@
 /**
  * Created by Michael on 2/6/2016.
+ *This file is responsible for the affects and actions on the login page.
+ * -handles animations when page loads
+ * =calls the server to validate users and redirects them to the appropriate page
+ */
+
+
+
+
+
+
+/**Another function for providing cool little animations for the login page
  */
 $(document).ready(function() {
 
@@ -21,6 +32,8 @@ $(document).ready(function() {
         elem.append($ripple);
     };
 
+    /** This provides the fancy spinning wheel at the bottom after pressing sign up
+     */
     $(document).on("click", ".login__submit", function(e) {
         //console.log(" animating...");
         if (animating) return;
@@ -46,7 +59,9 @@ $(document).ready(function() {
     });
 
 
-
+    /** This isn't being used
+     * - provides nice affects for logging out.
+     */
     $(document).on("click", ".app__logout", function(e) {
         if (animating) return;
         $(".ripple").remove();
@@ -65,51 +80,43 @@ $(document).ready(function() {
             $(that).removeClass("clicked");
         }, logoutPhase1);
     });
-
 });
 
-/* // this doesn't appear to send the json correctly. going to try the ajax way
-    $(document).on("click", ".login__submit", function(e) {
-
-    console.log("got into validate login...");
-    var xhttp = new XMLHttpRequest();
-    var json_upload;
-    xhttp.onreadystatechange = function() { // for the response from server
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-            // in here check if the loginUtility returned true
-            //document.getElementById("demo").innerHTML = xhttp.responseText;
-            //window.location ="http://70.187.52.39:3000/dashBoard"; // redirect to the dashboard
-            console.log("the request was all good. Here is the response...\n");
-
-            console.log("IN BROWSER -- userame: " + xhttp.response.body.username.toString() + " password: "+ xhttp.response.body.password);
-            //window.location ="http://localhost:3000/dashBoard"; // redirect to the dashboard
-        }
-    };
-    jsnon_upload = JSON.stringify({username:"qwex", password:"pass1234"});
-    xhttp.open("POST", "http://localhost:3000/LoginApp" , true);
-    //xhttp.open("POST", "http://70.187.52.39:3000/LoginApp" , true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhttp.send(JSON.stringify({username:"qwex", password:"pass1234"}));
-});
-    */
 
 
+/** This function fires when the user clicks submit.
+ *  - This function will send a POST request to the servers script that verifies a user and allowes them to login.
+ *  - Checks if the user was valid or not.
+ *  - Alerts the user to an incorrect user.
+ *
+ */
 $(document).on("click", ".login__submit", function(e) {
+            // read the passwords from the web page....
+            //login__input pass
+            //login__input name
+            var url = "http://localhost:3000/LoginApp"; // where the post is made to. will need to be changed to antilizard.com:3000 when moved to server
+            var username;
+            var password;
+            var userData;
 
-    console.log("got into validate login...");
-
-     var result = $.ajax({
+            $.ajax({
                     type: "POST",
-                    url: "http://localhost:3000/LoginApp",
-                    data: {'username': 'qwex', 'password': 'pass1234'},
-                    success: function() {
-                            alert("made it back. sucess");
-                        //console.log("IN BROWSER -- userame: " + response.body.username.toString() + " password: "+ xhttp.response.body.password);
+                    url: url,
+                    dataType: 'json',
+                    data: {username: 'qweyx', password: 'pass1234'},
+                    success: function(result) {
+                        if(result.validate == true){
+
+                        }
+                        else{ // login utility could not validate user
+                            swal({   title: "Login Failed!",   text: "Incorrect username or password!",   type: "error",   confirmButtonText: "Cool" });
+                            location.reload();
+                        }
+                        //alert(result.validate);
                     },
                     failure: function(){
-                        alert("made it back. failed");
-                    },
-                    dataType: 'json'
-                });
-
+                        swal({   title: "Error",   text: "Could not get response from server",   type: "error",   confirmButtonText: "Cool" });
+                        alert("POST REQUEST FAILED.  browser -> server.");
+                    }
+                    });
 });
